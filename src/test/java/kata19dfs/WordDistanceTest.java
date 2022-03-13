@@ -62,6 +62,15 @@ public class WordDistanceTest {
         assertTrue(WordDistance.findWordsWithGivenDistance(WORDS, null, 1).isEmpty());
     }
 
+    @Test
+    @DisplayName("orderWordList sorts the list in such a way that the words closest to the final word are first")
+    public void orderList() {
+        List<String> testList = List.of("take", "balk", "tall", "sure", "ball", "fall");
+        List<String> expectedSortedList = List.of("ball", "balk", "fall", "tall", "take", "sure");
+        List<String> sortedList = WordDistance.orderList(testList, "ball");
+        assertEquals(expectedSortedList, sortedList);
+    }
+
     private String convertToNull(String word) {
         return word.equals("null") ? null : word;
     }

@@ -17,6 +17,11 @@ public class Word {
         return this.word.equals(word2.getWord());
     }
 
+    public static int letterMatches(String s1, String s2) {
+        Word w1 = new Word(s1);
+        return w1.exactLetterMatches(s2);
+    }
+
     public int exactLetterMatches(String word2) {
         if (this.word.length() != word2.length()) {
             return -1;

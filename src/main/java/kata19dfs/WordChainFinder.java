@@ -5,8 +5,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class WordChainFinder {
     private AbstractDictionary dictionary;
-    private String startWord;
-    private String finishWord;
+    private final String startWord;
+    private final String finishWord;
     private int maxDepth;
 
     ReentrantLock lock = new ReentrantLock();
@@ -45,7 +45,9 @@ public class WordChainFinder {
             return startNode;
         }
 
-        List<String> children = WordDistance.findWordsWithGivenDistance(wordList, startNode.getWord(), 1);
+        List<String> unsortedChildren = WordDistance.findWordsWithGivenDistance(wordList, startNode.getWord(), 1);
+        List<String> children = WordDistance.orderList(unsortedChildren, finishWord);
+
         if (children.contains(finishWord)) {
             startNode.addChild(finishWord);
             if (startNode.getDepth() + 1 < maxDepth) {
@@ -54,13 +56,13 @@ public class WordChainFinder {
             return startNode;
         }
 
-        children.forEach(word -> startNode.addChild(word));
-
-        if (startNode.getDepth() == 1) {
-            startNode.getChildren().parallelStream().forEach(childNode -> buildTree(childNode, wordList));
-        } else {
-            startNode.getChildren().forEach(childNode -> buildTree(childNode, wordList));
-        }
+        children.forEach(startNode::addChild);
+        startNode.getChildren().forEach(childNode -> buildTree(childNode, wordList));
+//        if (startNode.getDepth() == 1) {
+//            startNode.getChildren().parallelStream().forEach(childNode -> buildTree(childNode, wordList));
+//        } else {
+//            startNode.getChildren().forEach(childNode -> buildTree(childNode, wordList));
+//        }
 
         return startNode;
     }
