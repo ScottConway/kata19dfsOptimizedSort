@@ -1,4 +1,4 @@
-# Kata19 DFS (Depth First Search)
+# Kata19 DFS Optimized Sort (Depth First Search) 
 
 This is the depth first solution for [code kata 19 word chain problem](http://codekata.com/kata/kata19-word-chains/).
 
